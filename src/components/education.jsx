@@ -71,31 +71,31 @@ const Education = () => {
     };
 
     return (
-        <div className={"sm:mb-5 w-full sm:py-5 border-b-2 "}>
-            <Modal title="Add Education Status" open={isModalOpen} okText={editIndex === -1 ? "Add" : "Update"} onOk={editIndex === -1 ? handleAddEducation : handleUpdateEducation} onCancel={() => { setEditIndex(-1); setIsModalOpen(false) }}>
-                <div className={"ml-5"}>
+        <div className={"sm:mb-5 w-full sm:py-5  "}>
+            <Modal title="Add Education Status" open={isModalOpen} onClose={() => setEditIndex(-1)} okText={editIndex === -1 ? "Add" : "Update"} onOk={editIndex === -1 ? handleAddEducation : handleUpdateEducation} onCancel={() => { setEditIndex(-1); setIsModalOpen(false) }}>
+                <div className={""}>
                     <Input
                         type="text"
-                        className="p-2 input-sm w-[40%] border border-gray-300 rounded mr-2"
+                        className="p-1 input-sm w-[45%] border border-gray-300 rounded mr-2"
                         value={newInstitution}
                         onChange={(e) => setNewInstitution(e.target.value)}
                         placeholder="Institution"
                     />
                     <Input
                         type="text"
-                        className="p-2 w-[40%] border border-gray-300 rounded mr-2"
+                        className="p-1 w-[45%] border border-gray-300 rounded mr-2"
                         value={newDepartment}
                         onChange={(e) => setNewDepartment(e.target.value)}
                         placeholder="Department"
                     />
                 </div>
             </Modal>
-            <div className="flex w-full flex-row items-center justify-between">
+            <div className="flex border-b-2 w-full flex-row items-center justify-between">
                 <p className="text-2xl font-bold font-ubuntu">Education</p>
                 <div className="flex items-center">
                     <button
                         className="ml-2 px-4 py-2 text-blue-500 rounded hover:text-blue-700"
-                        onClick={() => { setEditIndex(-1); setIsModalOpen(!isModalOpen); }}
+                        onClick={() => { setEditIndex(-1); setIsModalOpen(true); }}
                     >
                         <BiPlusCircle size={25} />
                     </button>

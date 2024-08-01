@@ -25,9 +25,6 @@ const Hoobies = () => {
             setNewHobby('');
             setIsModalOpen(false);
         }
-
-
-
     };
 
     const handleDeleteHobby = (index) => {
@@ -38,12 +35,13 @@ const Hoobies = () => {
 
     return (
         <div>
-            <div className="flex items-center justify-between">
+            <div className="flex border-b-2 items-center justify-between">
                 <Modal title="Add Hobbies" open={isModalOpen} onOk={handleAddHobby} onCancel={() => setIsModalOpen(false)}>
                     <Input
                         type="text"
-                        className="p-2 w-[80%] border border-gray-300 rounded"
+                        className="p-1 w-[80%] border border-gray-300 rounded"
                         value={newHobby}
+                        placeholder="add hobby"
                         onChange={(e) => setNewHobby(e.target.value)}
                     />
                 </Modal>
@@ -57,11 +55,11 @@ const Hoobies = () => {
                     </button>
                 </div>
             </div>
-            <div className={"flex flex-row flex-wrap gap-4 my-3 mr-10"}>
+            <div className={"flex flex-row flex-wrap gap-2 my-3 mr-10"}>
                 {
                     hobbies.map((hobby, index) => {
                         return (
-                            <Tag key={index} className={"p-2 rounded-2xl text-base"} closeIcon={<CloseOutlined />} onClose={() => handleDeleteHobby(index)}  >
+                            <Tag key={index} className={"p-2 rounded-2xl text-sm"} closeIcon={<CloseOutlined />} onClose={() => handleDeleteHobby(index)}  >
                                 {hobby}
                             </Tag>
                         )

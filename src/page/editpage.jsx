@@ -1,6 +1,7 @@
 import { Typography } from "antd";
 import { useState } from "react";
 import { BiEditAlt } from "react-icons/bi";
+import Subject from "../components/ApproverdSubject";
 import MyComponent from "../components/detail";
 import Education from "../components/education";
 import Hoobies from "../components/hoobies";
@@ -12,7 +13,7 @@ const EditPage = () => {
     const [bioText, setbioText] = useState("frestristic dremar restristic dremarrestristic dremarrestristic dremar")
 
     return (
-        <div className={"flex sm:max-h-[100vh] sm:overflow-y-hidden sm:flex-row flex-col sm:gap-10 m-7 sm:mx-10"}>
+        <div className={"flex sm:max-h-[100vh] sm:overflow-y-hidden sm:flex-row flex-col sm:gap-10 m-7 ml-3 sm:mx-10"}>
             <div className={"sm:w-[20%] flex flex-col gap-2"}>
                 <div className={"flex sm:mx-3 flex-row justify-between"}>
                     <p className={"text-xl font-roboto font-bold"}>Edit profile</p>
@@ -39,7 +40,7 @@ const EditPage = () => {
                         {userName}
                     </Paragraph>
                 </div>
-                <div className={" flex ml-3 flex-col"}>
+                <div className={" flex sm:ml-3 flex-col"}>
                     <p className={"text-xl font-bold font-ubuntu"}>Bio</p>
                     <Paragraph
                         className={"font-ubuntu my-auto leading-2ww"}
@@ -57,6 +58,7 @@ const EditPage = () => {
             </div>
             <div className={"sm:w-[35%] flex-wrap sm:h-[100vh] my-5 flex flex-col gap-3"}>
                 <MyComponent />
+                <Subject />
                 <Hoobies />
                 <Education />
             </div>

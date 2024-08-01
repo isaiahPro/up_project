@@ -7,7 +7,7 @@ const MyComponent = () => {
     const [details, setDetails] = useState([
         { title: "live in", description: "California live in California live in California" },
         { title: "from", description: "New York, America from New York, America" },
-        { title: "engaged", description: "" },
+        { title: "engaged", description: "yes" },
         { title: "work at", description: "Netflix  at Netflix" },
     ]);
     const [newTitle, setNewTitle] = useState('');
@@ -52,28 +52,27 @@ const MyComponent = () => {
     };
 
     return (
-        <div className={" border-b-2"}>
+        <div className={""}>
             <Modal title={editIndex === -1 ? "Add Detail" : "Edit Detail"} open={isModalOpen} onOk={handleSaveDetail} onCancel={() => setIsModalOpen(false)}>
-                <div className="flex items-center">
+                <div className="flex w-full flex-row gap-2 items-center">
                     <Input
                         type="text"
-                        className="p-2 w-[40%] border border-gray-300 rounded"
+                        className="p-1 w-[45%] border border-gray-300 rounded"
                         value={newTitle}
                         onChange={(e) => setNewTitle(e.target.value)}
                         placeholder="Title"
                     />
                     <Input
                         type="text"
-                        className="p-2 w-[40%] border border-gray-300 rounded ml-2"
+                        className="p-1 w-[45%] border border-gray-300 rounded"
                         value={newDescription}
                         onChange={(e) => setNewDescription(e.target.value)}
                         placeholder="Description"
                     />
                 </div>
             </Modal>
-            <div className="flex items-center justify-between">
+            <div className="flex border-b-2 items-center justify-between">
                 <p className="text-2xl font-bold font-ubuntu">Details</p>
-
                 <button
                     className=" py-2 rounded text-blue-500 hover:text-blue-700 flex items-center"
                     onClick={handleAddDetail}
@@ -84,8 +83,8 @@ const MyComponent = () => {
             </div>
             <div>
                 {details.map((detail, index) => (
-                    <div key={index} className="py-2 pl-4 pr-10 flex justify-between items-center">
-                        <span className={"font-semibold "}>{detail.title} {detail.description}</span>
+                    <div key={index} className="py-2 sm:pl-4 pl-2 sm:pr-10 pr-3 flex justify-between items-center">
+                        <span className={""}> <span className={"font-semibold text-blue-800 "}>{detail.title}: </span> {detail.description}</span>
                         <div className="flex">
                             <button
                                 className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
