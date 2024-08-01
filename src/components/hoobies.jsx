@@ -1,5 +1,5 @@
 import { CloseOutlined } from "@ant-design/icons";
-import { Tag } from 'antd';
+import { Input, Modal, Tag } from 'antd';
 import { useState } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 
@@ -14,17 +14,18 @@ const Hoobies = () => {
         "Cooking",
         "Painting"
     ]);
-    const [addHobby, setAddHobby] = useState(false);
-
     const [newHobby, setNewHobby] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     const handleAddHobby = () => {
-        setAddHobby(true)
+        setIsModalOpen(true)
         if (newHobby.trim() !== '') {
             setHobbies([...hobbies, newHobby.trim()]);
             setNewHobby('');
-            setAddHobby(false)
+            setIsModalOpen(false);
         }
+
 
 
     };
@@ -38,14 +39,16 @@ const Hoobies = () => {
     return (
         <div>
             <div className="flex items-center justify-between">
-                <p className="text-2xl font-bold font-ubuntu">Hobbies</p>
-                <div className="flex items-center">
-                    {addHobby && <input
+                <Modal title="Add Hobbies" open={isModalOpen} onOk={handleAddHobby} onCancel={() => setIsModalOpen(false)}>
+                    <Input
                         type="text"
                         className="p-2 w-[80%] border border-gray-300 rounded"
                         value={newHobby}
                         onChange={(e) => setNewHobby(e.target.value)}
-                    />}
+                    />
+                </Modal>
+                <p className="text-2xl font-bold font-ubuntu">Hobbies</p>
+                <div className="flex items-center">
                     <button
                         className="ml-2 px-4 py-2 text-blue-500 rounded hover:text-blue-700"
                         onClick={handleAddHobby}
@@ -65,7 +68,7 @@ const Hoobies = () => {
                     })
                 }
             </div>
-        </div >
+        </div>
     );
 };
 

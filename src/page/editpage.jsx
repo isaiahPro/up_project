@@ -21,32 +21,34 @@ const EditPage = () => {
                 <div className={"mx-auto flex flex-col gap-2"}>
                     <ImageUpload />
                 </div>
-                <div className={"flex leading-3 flex-col justify-left"}>
+                <div className={"flex leading-3 ml-3 mt-2 flex-col justify-left"}>
                     <Paragraph
+                        className={"text-xl font-bold font-ubuntu"}
                         editable={{
                             onChange: setName,
                         }}
                     >
-                        <span className={"text-xl font-bold font-ubuntu"}>{name}</span>
+                        {name}
                     </Paragraph>
                     <Paragraph
+                        className={"font-ubuntu "}
                         editable={{
                             onChange: setUserName,
                         }}
                     >
-                        <span className={"font-ubuntu "}>{userName}</span>
+                        {userName}
                     </Paragraph>
                 </div>
-                <div className={" flex flex-col"}>
+                <div className={" flex ml-3 flex-col"}>
                     <p className={"text-xl font-bold font-ubuntu"}>Bio</p>
                     <Paragraph
-                        className={'my-auto'}
+                        className={"font-ubuntu my-auto leading-2ww"}
                         editable={{
                             icon: <BiEditAlt size={23} className={"border rounded-full p-1 my "} />,
                             onChange: setbioText,
                         }}
                     >
-                        <span className={"font-ubuntu leading-2ww"}>{bioText}</span>
+                        {bioText}
                     </Paragraph>
 
                 </div>
