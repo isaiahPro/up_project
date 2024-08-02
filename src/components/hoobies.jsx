@@ -48,14 +48,14 @@ const Hoobies = () => {
                 <p className="text-2xl font-bold font-ubuntu">Hobbies</p>
                 <div className="flex items-center">
                     <button
-                        className="ml-2 px-4 py-2 text-blue-500 rounded hover:text-blue-700"
+                        className="ml-2 text-blue-500 rounded hover:text-blue-700"
                         onClick={handleAddHobby}
                     >
                         <BiPlusCircle size={25} />
                     </button>
                 </div>
             </div>
-            <div className={"flex flex-row flex-wrap gap-2 my-3 mr-10"}>
+            <div className={"flex flex-row flex-wrap pt-3 gap-2"}>
                 {
                     hobbies.map((hobby, index) => {
                         return (

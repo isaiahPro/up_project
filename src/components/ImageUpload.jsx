@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Image } from 'antd';
 import { useRef, useState } from 'react';
 const ProfilePicture = () => {
     const [profilePicture, setProfilePicture] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwme89cM8YZvHcybGrZl_Obd9U9p5QabozJQ&s");
@@ -22,7 +22,7 @@ const ProfilePicture = () => {
         <div>
             <div className="relative">
                 {profilePicture && (
-                    <img
+                    <Image
                         src={profilePicture}
                         alt="Profile"
                         className="w-full"

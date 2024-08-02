@@ -71,7 +71,7 @@ const Education = () => {
     };
 
     return (
-        <div className={"sm:mb-5 w-full sm:py-5  "}>
+        <div className={"sm:mb-5 w-full sm:ml-3  "}>
             <Modal title="Add Education Status" open={isModalOpen} onClose={() => setEditIndex(-1)} okText={editIndex === -1 ? "Add" : "Update"} onOk={editIndex === -1 ? handleAddEducation : handleUpdateEducation} onCancel={() => { setEditIndex(-1); setIsModalOpen(false) }}>
                 <div className={""}>
                     <Input
@@ -94,16 +94,16 @@ const Education = () => {
                 <p className="text-2xl font-bold font-ubuntu">Education</p>
                 <div className="flex items-center">
                     <button
-                        className="ml-2 px-4 py-2 text-blue-500 rounded hover:text-blue-700"
+                        className="ml-2 text-blue-500 rounded hover:text-blue-700"
                         onClick={() => { setEditIndex(-1); setIsModalOpen(true); }}
                     >
                         <BiPlusCircle size={25} />
                     </button>
                 </div>
             </div>
-            <div>
+            <div className={"pt-3 flex flex-col gap-2"}>
                 {education.map((item, index) => (
-                    <div key={index} className="py-2 w-[90%] pl-4 flex justify-between items-center">
+                    <div key={index} className="flex justify-between items-center">
                         <div>
                             <p className="font-bold">{item.institution}</p>
                             <p>{item.department}</p>

@@ -74,16 +74,16 @@ const MyComponent = () => {
             <div className="flex border-b-2 items-center justify-between">
                 <p className="text-2xl font-bold font-ubuntu">Details</p>
                 <button
-                    className=" py-2 rounded text-blue-500 hover:text-blue-700 flex items-center"
+                    className="ml-2 text-blue-500 rounded hover:text-blue-700"
                     onClick={handleAddDetail}
                 >
-                    <BiPlusCircle size={25} className="mr-2" />
+                    <BiPlusCircle size={25} />
                 </button>
 
             </div>
             <div>
                 {details.map((detail, index) => (
-                    <div key={index} className="py-2 sm:pl-4 pl-2 sm:pr-10 pr-3 flex justify-between items-center">
+                    <div key={index} className="py-2 flex justify-between items-center">
                         <span className={""}> <span className={"font-semibold text-blue-800 "}>{detail.title}: </span> {detail.description}</span>
                         <div className="flex">
                             <button
