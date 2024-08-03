@@ -19,13 +19,13 @@ const ProfilePicture = () => {
     };
 
     return (
-        <div>
+        <div className={""}>
             <div className="relative">
                 {profilePicture && (
                     <Image
                         src={profilePicture}
                         alt="Profile"
-                        className="w-full"
+                        className="w-full object-cover"
                     />
                 )}
             </div>

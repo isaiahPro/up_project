@@ -1,16 +1,20 @@
 import { CloseOutlined } from "@ant-design/icons";
-import { Input, Modal, Tag } from 'antd';
+import { Button, Input, Modal, Tag } from 'antd';
 import { useState } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 
-const Subject = () => {
-    const [subjects, setsubjects] = useState([
-        "English",
-        "amharic",
-        "franch",
-        "franch",
+// eslint-disable-next-line react/prop-types
+const Subject = ({ SectionTitle, sample, deleteSection }) => {
+    const [subjects, setsubjects] = useState(
+        sample == true
+            ? []
+            : [
+                "English",
+                "amharic",
+                "franch",
+                "franch",
 
-    ]);
+            ]);
     const [newSubject, setNewSubject] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -41,14 +45,23 @@ const Subject = () => {
                         onChange={(e) => setNewSubject(e.target.value)}
                     />
                 </Modal>
-                <p className="text-2xl font-bold font-ubuntu">Subjects</p>
-                <div className="flex items-center">
+                <p className="text-2xl font-bold font-ubuntu">{SectionTitle}</p>
+                <div className={"my-auto flex flex-row gap-2"}>
                     <button
                         className="ml-2 text-blue-500 rounded hover:text-blue-700"
                         onClick={handleAddSubject}
                     >
                         <BiPlusCircle size={25} />
                     </button>
+                    <Button
+                        danger
+                        ghost
+                        size='small'
+                        className={"text-sm font-ubuntu"}
+                        onClick={deleteSection}
+                    >
+                        Delete
+                    </Button>
                 </div>
             </div>
             <div className={"flex flex-row pt-3 flex-wrap gap-2 "}>

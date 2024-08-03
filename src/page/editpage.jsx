@@ -1,16 +1,29 @@
-import { Typography } from "antd";
-import { useState } from "react";
-import Subject from "../components/ApproverdSubject";
-import MyComponent from "../components/detail";
-import Education from "../components/education";
-import Hoobies from "../components/hoobies";
+import { PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Input, Modal, Typography } from 'antd';
+import { useRef, useState } from 'react';
+import Section03 from "../components/ApproverdSubject";
+import Section02 from "../components/detail";
+import Section04 from "../components/education";
 import ImageUpload from "../components/ImageUpload";
+import Section01 from "../components/personalDetail";
+
 const { Paragraph } = Typography;
+
 const EditPage = () => {
+    const [sections, setSections] = useState([
+        { title: "Bio", sample: false, type: "Section01" },
+        { title: "Details", sample: false, type: "Section02" },
+        { title: "Subjects", sample: false, type: "Section03" },
+        { title: "Educations", sample: false, type: "Section04" }
+    ]);
+    const [open, setOpen] = useState(false);
+    const [newSectionType, setNewSectionType] = useState('');
+    const [newSectionTitle, setNewSectionTitle] = useState('');
     const [name, setName] = useState("Alloson");
     const [userName, setUserName] = useState("alloson7732r");
-    const [bioText, setbioText] = useState("frestristic dremar restristic dremarrestristic dremarrestristic dremar")
-    const [sections, setsections] = useState([
+
+    const sectionRefs = useRef([]);
+    const topSection = useState([
         {
             name: "name",
             title: "",
@@ -22,92 +35,191 @@ const EditPage = () => {
             title: "",
             value: userName,
             setValue: setUserName,
+        },
+    ]);
 
+    const sectionComponents = {
+        Section01,
+        Section02,
+        Section03,
+        Section04
+    };
+
+    const openModal = (type) => {
+        setNewSectionTitle("");
+        setNewSectionType(type);
+        setOpen(true);
+    };
+
+    const closeModal = () => {
+        setOpen(false);
+        setNewSectionType('');
+        setNewSectionTitle('');
+    };
+
+    const handleInputChange = (e) => {
+        setNewSectionTitle(e.target.value);
+    };
+
+    const handleAddSection = () => {
+        if (newSectionTitle.trim()) {
+            const newSection = { title: newSectionTitle, sample: true, type: newSectionType };
+            setSections([...sections, newSection]);
+            setOpen(false);
+
+            // Scroll to the new section
+            setTimeout(() => {
+                sectionRefs.current[sections.length].scrollIntoView({ behavior: 'smooth' });
+            }, 0);
+        }
+    };
+
+    const deleteSection = (index) => {
+        const newSections = sections.filter((_, i) => i !== index);
+        setSections(newSections);
+    };
+
+    const items = [
+        {
+            key: '1',
+            label: (
+                <button
+                    className="block w-full gap-2 text-left px-4 py-2 hover:bg-gray-100"
+                    onClick={() => openModal('Section01')}
+                >
+                    <PlusOutlined />
+                    <span className={"ml-2"}>Section 1</span>
+                </button>
+            ),
         },
         {
-            name: "bio",
-            title: "Bio",
-            value: bioText,
-            setValue: setbioText,
-
+            key: '2',
+            label: (
+                <button
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                    onClick={() => openModal('Section02')}
+                >
+                    <PlusOutlined />
+                    <span className={"ml-2"}>Section 2</span>
+                </button>
+            ),
         },
-    ])
+        {
+            key: '3',
+            label: (
+                <button
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                    onClick={() => openModal('Section03')}
+                >
+                    <PlusOutlined />
+                    <span className={"ml-2"}>Section 3</span>
+                </button>
+            ),
+        },
+        {
+            key: '4',
+            label: (
+                <button
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                    onClick={() => openModal('Section04')}
+                >
+                    <PlusOutlined />
+                    <span className={"ml-2"}>Section 4</span>
+                </button>
+            ),
+        },
+    ];
 
     return (
-        <div className={"flex sm:max-h-[100vh] sm:overflow-y-hidden sm:flex-row flex-col sm:gap-10 m-7 ml-5 mr-7 sm:mx-10"}>
-            <div className={"sm:w-[20%] flex flex-col gap-2"}>
-                <div className={"flex sm:mx-3 flex-row justify-between"}>
-                    <p className={"text-xl font-roboto font-bold"}>Edit profile</p>
-                    <p className={"text-blue-600 my-auto"}>Save</p>
+        <div className="flex sm:ml-[10%]  sm:overflow-y-hidden sm:flex-row flex-col sm:gap-10 m-7 ml-5 mr-7">
+            <div className="sm:w-[25%] flex flex-col gap-2">
+                <div className="flex sm:mx-3 flex-row justify-between">
+                    <p className="text-xl font-roboto font-bold">Edit profile</p>
+                    <div className={"flex flex-row gap-5"}>
+                        <p className="text-blue-600 my-auto">Save</p>
+                        <Dropdown
+                            className={"my-auto"}
+                            menu={{ items }}
+                            placement="bottomRight"
+                        >
+                            <Button>
+                                Add section
+                                <PlusCircleOutlined />
+                            </Button>
+                        </Dropdown>
+                    </div>
                 </div>
-                <div className={"mx-auto flex flex-col gap-2"}>
+                <div className=" w-full flex flex-col gap-2 items-center">
                     <ImageUpload />
                 </div>
-                <div>
-                    {
-                        sections.map((section, index) => {
-                            return (
-                                <div key={index}>
-                                    {section.title !== null && <p className={"text-xl font-bold font-ubuntu"}>{section.title}</p>}
-                                    <Paragraph
-                                        className={`font-ubuntu my-auto leading-2w ${section.name === "name" ? "font-bold text-xl" : ""} ${section.name === "username" ? "-mt-5" : ""}`}
-                                        editable={{
-                                            // icon: <BiEditAlt size={10} className={"border rounded-full p-1 mt-2 "} />,
-                                            onChange: section.setValue,
-                                        }}
-                                    >
-                                        {section.value}
-                                    </Paragraph>
-                                </div>
-                            )
-                        })
+                {
+                    topSection[0].map((topSection, index) => (
+                        <div key={index} className="flex justify-between sm:flex-row flex-col">
+                            <div className={"flex flex-col"}>
+                                {topSection.title !== null && <p className={"text-xl font-bold font-ubuntu"}>{topSection.title}</p>}
+                                <Paragraph
+                                    className={`font-ubuntu my-auto leading-2w ${topSection.name === "name" ? "font-bold text-xl" : ""} ${topSection.name === "username" ? "-mt-5" : ""}`}
+                                    editable={{ onChange: topSection.setValue }}
+                                >
+                                    {topSection.value}
+                                </Paragraph>
+                            </div>
+                        </div>
+                    ))
+                }
+                {sections.map((section, index) => {
+                    if (section.type === "Section01") {
+                        const SectionComponent = sectionComponents[section.type];
+                        return (
+                            <div key={index} ref={(el) => (sectionRefs.current[index] = el)}>
+                                <SectionComponent
+                                    SectionTitle={section.title}
+                                    sample={section.sample}
+                                    deleteSection={() => deleteSection(index)}
+                                />
+                            </div>
+                        );
                     }
-                </div>
-                {/* <div className={"flex leading-3 ml-3 mt-2 flex-col justify-left"}>
-                    <Paragraph
-                        className={"text-xl font-bold font-ubuntu"}
-                        editable={{
-                            onChange: setName,
-                        }}
-                    >
-                        {name}
-                    </Paragraph>
-                    <Paragraph
-                        className={"font-ubuntu "}
-                        editable={{
-                            onChange: setUserName,
-                        }}
-                    >
-                        {userName}
-                    </Paragraph>
-                </div>
-                <div className={" flex sm:ml-3 flex-col"}>
-                    <p className={"text-xl font-bold font-ubuntu"}>Bio</p>
-                    <Paragraph
-                        className={"font-ubuntu my-auto leading-2ww"}
-                        editable={{
-                            icon: <BiEditAlt size={23} className={"border rounded-full p-1 my "} />,
-                            onChange: setbioText,
-                        }}
-                    >
-                        {bioText}
-                    </Paragraph>
-
-                </div> */}
-
-
+                    return null;
+                })}
             </div>
-
-
-
-            <div className={"sm:w-[35%] flex-wrap sm:h-[100vh] my-5 flex flex-col gap-3"}>
-                <MyComponent />
-                <Subject />
-                <Hoobies />
-                <Education />
+            <div className="sm:w-[50%] flex-wrap my-5 flex flex-col gap-3">
+                {sections.map((section, index) => {
+                    if (section.type !== "Section01") {
+                        const SectionComponent = sectionComponents[section.type];
+                        return (
+                            <div key={index} ref={(el) => (sectionRefs.current[index] = el)}>
+                                <SectionComponent
+                                    SectionTitle={section.title}
+                                    sample={section.sample}
+                                    deleteSection={() => deleteSection(index)}
+                                />
+                            </div>
+                        );
+                    }
+                    return null;
+                })}
+            </div>
+            <div>
+                <Modal
+                    title="Add Section Title"
+                    open={open}
+                    onOk={handleAddSection}
+                    onCancel={closeModal}
+                    okText="Add Section"
+                    cancelText="Cancel"
+                >
+                    <Input
+                        type="text"
+                        value={newSectionTitle}
+                        onChange={handleInputChange}
+                        placeholder="Enter section title"
+                        className="border p-2 w-full mb-4"
+                    />
+                </Modal>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default EditPage
+export default EditPage;

@@ -1,10 +1,14 @@
 import { EditOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Input, Modal } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import { useState } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 
-const Education = () => {
-    const [education, setEducation] = useState([
+// eslint-disable-next-line no-unused-vars, react/prop-types
+const Education = ({ SectionTitle, sample, deleteSection }) => {
+    const [education, setEducation] = useState(sample == true ? [{
+        institution: 'Title',
+        department: 'Description'
+    },] : [
         {
             institution: 'University of XYZ',
             department: 'Computer Science'
@@ -70,8 +74,9 @@ const Education = () => {
         setEditIndex(-1);
     };
 
+
     return (
-        <div className={"sm:mb-5 w-full sm:ml-3  "}>
+        <div className={"sm:mb-5 w-full  "}>
             <Modal title="Add Education Status" open={isModalOpen} onClose={() => setEditIndex(-1)} okText={editIndex === -1 ? "Add" : "Update"} onOk={editIndex === -1 ? handleAddEducation : handleUpdateEducation} onCancel={() => { setEditIndex(-1); setIsModalOpen(false) }}>
                 <div className={""}>
                     <Input
@@ -91,14 +96,23 @@ const Education = () => {
                 </div>
             </Modal>
             <div className="flex border-b-2 w-full flex-row items-center justify-between">
-                <p className="text-2xl font-bold font-ubuntu">Education</p>
-                <div className="flex items-center">
+                <p className="text-2xl font-bold font-ubuntu">{SectionTitle}</p>
+                <div className={"my-auto flex flex-row gap-2"}>
                     <button
                         className="ml-2 text-blue-500 rounded hover:text-blue-700"
-                        onClick={() => { setEditIndex(-1); setIsModalOpen(true); }}
+                        onClick={handleAddEducation}
                     >
                         <BiPlusCircle size={25} />
                     </button>
+                    <Button
+                        danger
+                        ghost
+                        size='small'
+                        className={"text-sm font-ubuntu"}
+                        onClick={deleteSection}
+                    >
+                        Delete
+                    </Button>
                 </div>
             </div>
             <div className={"pt-3 flex flex-col gap-2"}>

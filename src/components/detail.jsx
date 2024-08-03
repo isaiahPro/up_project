@@ -1,15 +1,19 @@
 import { EditOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Input, Modal } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import { useState } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 
-const MyComponent = () => {
-    const [details, setDetails] = useState([
-        { title: "live in", description: "California live in California live in California" },
-        { title: "from", description: "New York, America from New York, America" },
-        { title: "engaged", description: "yes" },
-        { title: "work at", description: "Netflix  at Netflix" },
-    ]);
+// eslint-disable-next-line react/prop-types
+const MyComponent = ({ SectionTitle, sample, deleteSection }) => {
+    const [details, setDetails] = useState(
+        sample == true
+            ? [{ title: "Sample Title", description: "sample description" }]
+            : [
+                { title: "Title", description: "California live in California live in California" },
+                { title: "from", description: "New York, America from New York, America" },
+                { title: "engaged", description: "yes" },
+                { title: "work at", description: "Netflix  at Netflix" },
+            ]);
     const [newTitle, setNewTitle] = useState('');
     const [newDescription, setNewDescription] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,13 +76,24 @@ const MyComponent = () => {
                 </div>
             </Modal>
             <div className="flex border-b-2 items-center justify-between">
-                <p className="text-2xl font-bold font-ubuntu">Details</p>
-                <button
-                    className="ml-2 text-blue-500 rounded hover:text-blue-700"
-                    onClick={handleAddDetail}
-                >
-                    <BiPlusCircle size={25} />
-                </button>
+                <p className="text-2xl font-bold font-ubuntu">{SectionTitle}</p>
+                <div className={"my-auto flex flex-row gap-2"}>
+                    <button
+                        className=" text-blue-500 rounded hover:text-blue-700"
+                        onClick={handleAddDetail}
+                    >
+                        <BiPlusCircle size={25} />
+                    </button>
+                    <Button
+                        danger
+                        ghost
+                        size='small'
+                        className={"text-sm font-ubuntu"}
+                        onClick={deleteSection}
+                    >
+                        Delete
+                    </Button>
+                </div>
 
             </div>
             <div>
