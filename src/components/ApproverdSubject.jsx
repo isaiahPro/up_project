@@ -83,7 +83,6 @@ const Subject = ({ SectionTitle, sample, deleteSection }) => {
                         className={"p-2 h-fit rounded-md text-sm cursor-pointer"}
                         onMouseEnter={() => handleTagHover(index, true)}
                         onMouseLeave={() => handleTagHover(index, false)}
-                    // onClick={visibleDeleteButton[index]}
                     >
                         {subject}
                         <div

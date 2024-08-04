@@ -15,7 +15,6 @@ const EditPage = () => {
         { title: "Educations", sample: false, type: "Section04", buttonText: "Section" }
     ]);
     const [open, setOpen] = useState(false);
-    const [addsec, setaddsec] = useState(false)
     const [newSectionType, setNewSectionType] = useState('');
     const [newSectionTitle, setNewSectionTitle] = useState('');
     const [name, setName] = useState("Alloson");
@@ -196,12 +195,6 @@ const EditPage = () => {
                     <div className={"flex flex-row gap-5"}>
                         <p className="text-blue-600 my-auto">Save</p>
                     </div>
-                    {
-                        sections.length == 0 ? addSectionButton(1) : <Button className={`${addsec ? "border border-blue-500" : null}`} onClick={() => setaddsec(!addsec)}>
-                            Add Section
-                        </Button>
-                    }
-
                 </div>
                 <div className="w-full flex flex-col gap-2 items-center">
                     <ImageUpload />
@@ -237,7 +230,7 @@ const EditPage = () => {
                                     sample={section.sample}
                                     deleteSection={() => deleteSection(index)}
                                 />
-                                {addsec && <div className={"w-full flex flex-row justify-center mt-3"}>{addSectionButton(index)}</div>}
+                                <div className={"w-full flex flex-row justify-center mt-3"}>{addSectionButton(index)}</div>
                             </>
                             {/* )} */}
                         </div>
