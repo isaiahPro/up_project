@@ -1,28 +1,52 @@
-import { CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Input, Modal, Tag } from 'antd';
 import { useState } from 'react';
-import { BiPlusCircle, BiTrash } from 'react-icons/bi';
+import { BiTrash } from 'react-icons/bi';
 
 // eslint-disable-next-line react/prop-types
 const Subject = ({ SectionTitle, sample, deleteSection }) => {
-    const [subjects, setSubjects] = useState(
-        sample ? [] : ["English", "Amharic", "French", "Spanish"]
+    const [subjects, setsubjects] = useState(
+        sample == true
+            ? []
+            : [
+                "English",
+                "amharic",
+                "franch",
+                "franch",
+            ]
     );
     const [newSubject, setNewSubject] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [visibleDeleteButton, setVisibleDeleteButton] = useState({});
 
     const handleAddSubject = () => {
+        setIsModalOpen(true)
         if (newSubject.trim() !== '') {
-            setSubjects([...subjects, newSubject.trim()]);
+            setsubjects([...subjects, newSubject.trim()]);
             setNewSubject('');
             setIsModalOpen(false);
         }
     };
 
+    // const handleDeleteSubject = (index) => {
+    //     const newsubjects = [...subjects];
+    //     newsubjects.splice(index, 1);
+    //     setsubjects(newsubjects);
+    //     setVisibleDeleteButton((prevState) => ({
+    //         ...prevState,
+    //         [index]: false,
+    //     }));
+    // };
     const handleDeleteSubject = (index) => {
-        const newSubjects = [...subjects];
-        newSubjects.splice(index, 1);
-        setSubjects(newSubjects);
+        const newSections = subjects.filter((_, i) => i !== index);
+        setsubjects(newSections);
+    };
+
+    const handleTagHover = (index, visible) => {
+        setVisibleDeleteButton((prevState) => ({
+            ...prevState,
+            [index]: visible,
+        }));
     };
 
     return (
@@ -37,12 +61,12 @@ const Subject = ({ SectionTitle, sample, deleteSection }) => {
                     />
                 </Modal>
                 <p className="text-2xl font-bold font-ubuntu">{SectionTitle}</p>
-                <div className="my-auto flex flex-row gap-2">
+                <div className={"my-auto flex flex-row gap-2"}>
                     <button
-                        className="ml-2 text-blue-500 rounded hover:text-blue-700"
-                        onClick={() => setIsModalOpen(true)}
+                        className=" text-blue-500 rounded hover:text-blue-700"
+                        onClick={handleAddSubject}
                     >
-                        <BiPlusCircle size={25} />
+                        <PlusCircleOutlined />
                     </button>
                     <button
                         className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
@@ -52,34 +76,27 @@ const Subject = ({ SectionTitle, sample, deleteSection }) => {
                     </button>
                 </div>
             </div>
-            <div className="flex flex-row pt-3 flex-wrap gap-2">
+            <div className={"flex flex-row pt-3 flex-wrap gap-2 "}>
                 {subjects.map((subject, index) => (
                     <Tag
                         key={index}
-                        className="p-2 rounded-2xl cursor-pointer text-sm subject-tag"
-                        closable
-                        closeIcon={<CloseOutlined />}
-                        onClose={() => handleDeleteSubject(index)}
+                        className={"p-2 h-fit rounded-md text-sm cursor-pointer"}
+                        onMouseEnter={() => handleTagHover(index, true)}
+                        onMouseLeave={() => handleTagHover(index, false)}
+                    // onClick={visibleDeleteButton[index]}
                     >
                         {subject}
+                        <div
+                            type="link"
+                            className='pl-2'
+                            style={{ display: visibleDeleteButton[index] ? 'inline' : 'none' }}
+                            onClick={() => handleDeleteSubject(index)}
+                        >
+                            <CloseOutlined />
+                        </div>
                     </Tag>
                 ))}
             </div>
-            <style jsx>{`
-                .subject-tag {
-                    position: relative;
-                    transition: background-color 0.3s ease;
-                }
-                .subject-tag:hover {
-                    background-color: #f0f0f0;
-                }
-                .subject-tag .anticon-close {
-                    visibility: hidden;
-                }
-                .subject-tag:hover .anticon-close {
-                    visibility: visible;
-                }
-            `}</style>
         </div>
     );
 };

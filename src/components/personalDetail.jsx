@@ -4,21 +4,23 @@ import { useState } from 'react';
 import { BiTrash } from 'react-icons/bi';
 
 // eslint-disable-next-line react/prop-types
-const PersonalData = ({ SectionTitle, sample }) => {
+const PersonalData = ({ SectionTitle, sample, deleteSection }) => {
     const [sections, setSections] = useState(
-        sample == true ? [
-            {
-                name: "Sample",
-                title: SectionTitle,
-                value: "Sample Description",
-            },
-        ] : [
-            {
-                name: "bio",
-                title: "Bio",
-                value: "Sample Description",
-            },
-        ]
+        sample === true
+            ? [
+                {
+                    name: "Sample",
+                    title: SectionTitle,
+                    value: "Sample Description",
+                },
+            ]
+            : [
+                {
+                    name: "bio",
+                    title: "Bio",
+                    value: "Sample Description",
+                },
+            ]
     );
     const [editIndex, setEditIndex] = useState(-1);
     const [newText, setNewText] = useState('');
@@ -28,6 +30,11 @@ const PersonalData = ({ SectionTitle, sample }) => {
         const updatedSections = [...sections];
         updatedSections.splice(index, 1);
         setSections(updatedSections);
+
+        // If sections array is empty, delete the entire section
+        if (updatedSections.length === 0) {
+            deleteSection();
+        }
     };
 
     const handleEdit = (index) => {
@@ -73,7 +80,9 @@ const PersonalData = ({ SectionTitle, sample }) => {
             {sections.map((section, index) => (
                 <div key={index} className="flex justify-between flex-row group">
                     <div className="flex flex-col">
-                        {section.title && <p className="text-xl font-bold font-ubuntu">{SectionTitle ? SectionTitle : "Bio"}</p>}
+                        {section.title && (
+                            <p className="text-xl font-bold font-ubuntu">{SectionTitle ? SectionTitle : "Bio"}</p>
+                        )}
                         <p className={`font-ubuntu my-auto leading-2w ${section.name === "name" ? "font-bold text-xl" : ""} ${section.name === "username" ? "-mt-5" : ""}`}>
                             {section.value}
                         </p>

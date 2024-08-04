@@ -1,7 +1,7 @@
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Input, Modal } from 'antd';
 import { useState } from 'react';
-import { BiPlusCircle, BiTrash } from 'react-icons/bi';
+import { BiTrash } from 'react-icons/bi';
 
 // eslint-disable-next-line react/prop-types
 const MyComponent = ({ SectionTitle, sample, deleteSection }) => {
@@ -83,7 +83,7 @@ const MyComponent = ({ SectionTitle, sample, deleteSection }) => {
                         className=" text-blue-500 rounded hover:text-blue-700"
                         onClick={handleAddDetail}
                     >
-                        <BiPlusCircle size={25} />
+                        <PlusCircleOutlined />
                     </button>
                     <button
                         className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
@@ -95,7 +95,7 @@ const MyComponent = ({ SectionTitle, sample, deleteSection }) => {
             </div>
             <div>
                 {details.map((detail, index) => (
-                    <div key={index} className="py-2 flex justify-between items-center group">
+                    <div key={index} className="pt-2 flex justify-between items-center group">
                         <span className={""}> <span className={"font-semibold text-blue-800 "}>{detail.title}: </span> {detail.description}</span>
                         <div className="flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <button

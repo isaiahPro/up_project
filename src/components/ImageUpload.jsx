@@ -1,4 +1,4 @@
-import { Button, Image } from 'antd';
+import { Button } from 'antd';
 import { useRef, useState } from 'react';
 import { BiTrash } from 'react-icons/bi';
 const ProfilePicture = () => {
@@ -21,9 +21,9 @@ const ProfilePicture = () => {
 
     return (
         <div className={""}>
-            <div className="relative">
+            <div className="w-[100%] h-[200px] overflow-hidden">
                 {profilePicture && (
-                    <Image
+                    <img
                         src={profilePicture}
                         alt="Profile"
                         className="w-full object-cover"

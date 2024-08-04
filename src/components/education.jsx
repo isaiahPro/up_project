@@ -1,7 +1,7 @@
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Input, Modal } from 'antd';
 import { useState } from 'react';
-import { BiPlusCircle, BiTrash } from 'react-icons/bi';
+import { BiTrash } from 'react-icons/bi';
 
 // eslint-disable-next-line no-unused-vars, react/prop-types
 const Education = ({ SectionTitle, sample, deleteSection }) => {
@@ -110,7 +110,7 @@ const Education = ({ SectionTitle, sample, deleteSection }) => {
                         className="ml-2 text-blue-500 rounded hover:text-blue-700"
                         onClick={handleAddEducation}
                     >
-                        <BiPlusCircle size={25} />
+                        <PlusCircleOutlined />
                     </button>
                     <button
                         className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
