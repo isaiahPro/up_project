@@ -98,7 +98,7 @@ const EditPage = () => {
                                 onClick={() => openModal('Section01', index)}
                             >
                                 <PlusOutlined />
-                                <span className={"ml-2"}>Text</span>
+                                <span className={"ml-2"}>Section 1</span>
                             </button>
                         ),
                     },
@@ -110,7 +110,7 @@ const EditPage = () => {
                                 onClick={() => openModal('Section02', index)}
                             >
                                 <PlusOutlined />
-                                <span className={"ml-2"}>Section</span>
+                                <span className={"ml-2"}>Section 2</span>
                             </button>
                         ),
                     },
@@ -122,7 +122,7 @@ const EditPage = () => {
                                 onClick={() => openModal('Section03', index)}
                             >
                                 <PlusOutlined />
-                                <span className={"ml-2"}>Lists</span>
+                                <span className={"ml-2"}>Section 3</span>
                             </button>
                         ),
                     },
@@ -134,7 +134,7 @@ const EditPage = () => {
                                 onClick={() => openModal('Section04', index)}
                             >
                                 <PlusOutlined />
-                                <span className={"ml-2"}>Section</span>
+                                <span className={"ml-2"}>Section 4</span>
                             </button>
                         ),
                     },
@@ -193,7 +193,9 @@ const EditPage = () => {
                 <div className="flex sm:mx-3 flex-row justify-between">
                     <p className="text-xl font-roboto font-bold">Edit profile</p>
                     <div className={"flex flex-row gap-5"}>
-                        <p className="text-blue-600 my-auto">Save</p>
+                        <Button type="dashed">
+                            Save
+                        </Button>
                     </div>
                 </div>
                 <div className="w-full flex flex-col gap-2 items-center">
