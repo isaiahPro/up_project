@@ -71,14 +71,14 @@ const PersonalData = ({ SectionTitle, sample }) => {
                 />
             </Modal>
             {sections.map((section, index) => (
-                <div key={index} className="flex justify-between flex-row">
+                <div key={index} className="flex justify-between flex-row group">
                     <div className="flex flex-col">
                         {section.title && <p className="text-xl font-bold font-ubuntu">{SectionTitle ? SectionTitle : "Bio"}</p>}
                         <p className={`font-ubuntu my-auto leading-2w ${section.name === "name" ? "font-bold text-xl" : ""} ${section.name === "username" ? "-mt-5" : ""}`}>
                             {section.value}
                         </p>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <button
                             className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
                             onClick={() => handleEdit(index)}

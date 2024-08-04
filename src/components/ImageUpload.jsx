@@ -1,5 +1,6 @@
 import { Button, Image } from 'antd';
 import { useRef, useState } from 'react';
+import { BiTrash } from 'react-icons/bi';
 const ProfilePicture = () => {
     const [profilePicture, setProfilePicture] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwme89cM8YZvHcybGrZl_Obd9U9p5QabozJQ&s");
     const fileInputRef = useRef(null);
@@ -31,7 +32,8 @@ const ProfilePicture = () => {
             </div>
             <div className="flex items-center justify-between mt-2">
                 <Button
-                    className="mx-auto"
+
+                    className="mx-auto w-[80%]"
                     onClick={handleAddProfilePicture}
                 >
                     {profilePicture ? 'Change profile pic' : 'Add profile pic'}
@@ -44,12 +46,13 @@ const ProfilePicture = () => {
                     onChange={handleFileChange}
                 />
                 {profilePicture && (
-                    <Button
-                        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                    <button
+                        className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
                         onClick={handleDeleteProfilePicture}
                     >
-                        Delete
-                    </Button>
+                        <BiTrash />
+                    </button>
+
                 )}
             </div>
         </div>

@@ -1,7 +1,7 @@
-import { EditOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Button, Input, Modal } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
+import { Input, Modal } from 'antd';
 import { useState } from 'react';
-import { BiPlusCircle } from 'react-icons/bi';
+import { BiPlusCircle, BiTrash } from 'react-icons/bi';
 
 // eslint-disable-next-line no-unused-vars, react/prop-types
 const Education = ({ SectionTitle, sample, deleteSection }) => {
@@ -30,9 +30,11 @@ const Education = ({ SectionTitle, sample, deleteSection }) => {
     const [newDepartment, setNewDepartment] = useState('');
     const [editIndex, setEditIndex] = useState(-1);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [showButtons, setShowButtons] = useState(-1);
 
     const handleAddEducation = () => {
+        setIsModalOpen(true);
+
         if (newInstitution.trim() !== '' && newDepartment.trim() !== '') {
             setEducation([
                 ...education,
@@ -45,7 +47,6 @@ const Education = ({ SectionTitle, sample, deleteSection }) => {
             setNewDepartment('');
             setIsModalOpen(false);
         }
-
     };
 
     const handleDeleteEducation = (index) => {
@@ -74,6 +75,13 @@ const Education = ({ SectionTitle, sample, deleteSection }) => {
         setEditIndex(-1);
     };
 
+    const handleMouseEnter = (index) => {
+        setShowButtons(index);
+    };
+
+    const handleMouseLeave = () => {
+        setShowButtons(-1);
+    };
 
     return (
         <div className={"sm:mb-5 w-full  "}>
@@ -104,38 +112,42 @@ const Education = ({ SectionTitle, sample, deleteSection }) => {
                     >
                         <BiPlusCircle size={25} />
                     </button>
-                    <Button
-                        danger
-                        ghost
-                        size='small'
-                        className={"text-sm font-ubuntu"}
+                    <button
+                        className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
                         onClick={deleteSection}
                     >
-                        Delete
-                    </Button>
+                        <BiTrash />
+                    </button>
                 </div>
             </div>
             <div className={"pt-3 flex flex-col gap-2"}>
                 {education.map((item, index) => (
-                    <div key={index} className="flex justify-between items-center">
+                    <div
+                        key={index}
+                        className="flex justify-between items-center"
+                        onMouseEnter={() => handleMouseEnter(index)}
+                        onMouseLeave={handleMouseLeave}
+                    >
                         <div>
                             <p className="font-bold">{item.institution}</p>
                             <p>{item.department}</p>
                         </div>
-                        <div className="flex items-center">
-                            <button
-                                className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
-                                onClick={() => handleEditEducation(index)}
-                            >
-                                <EditOutlined />
-                            </button>
-                            <button
-                                className="px-2 py-1 text-slate-400 rounded hover:text-slate-600"
-                                onClick={() => handleDeleteEducation(index)}
-                            >
-                                <MinusCircleOutlined />
-                            </button>
-                        </div>
+                        {showButtons === index && (
+                            <div className="flex items-center">
+                                <button
+                                    className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
+                                    onClick={() => handleEditEducation(index)}
+                                >
+                                    <EditOutlined />
+                                </button>
+                                <button
+                                    className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
+                                    onClick={() => handleDeleteEducation(index)}
+                                >
+                                    <BiTrash />
+                                </button>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

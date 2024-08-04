@@ -1,29 +1,32 @@
-import { PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Input, Modal, Typography } from 'antd';
+import { EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Button, Input, Modal } from 'antd';
 import { useRef, useState } from 'react';
+import { BiTrash } from 'react-icons/bi';
 import Section03 from "../components/ApproverdSubject";
 import Section02 from "../components/detail";
 import Section04 from "../components/education";
 import ImageUpload from "../components/ImageUpload";
 import Section01 from "../components/personalDetail";
 
-const { Paragraph } = Typography;
 
 const EditPage = () => {
     const [sections, setSections] = useState([
-        { title: "Bio", sample: false, type: "Section01" },
-        { title: "Details", sample: false, type: "Section02" },
-        { title: "Subjects", sample: false, type: "Section03" },
-        { title: "Educations", sample: false, type: "Section04" }
+        { title: "Bio", sample: false, type: "Section01", buttonText: "Text" },
+        { title: "Details", sample: false, type: "Section02", buttonText: "Section" },
+        { title: "Subjects", sample: false, type: "Section03", buttonText: "Lists" },
+        { title: "Educations", sample: false, type: "Section04", buttonText: "Section" }
     ]);
     const [open, setOpen] = useState(false);
     const [newSectionType, setNewSectionType] = useState('');
     const [newSectionTitle, setNewSectionTitle] = useState('');
     const [name, setName] = useState("Alloson");
     const [userName, setUserName] = useState("alloson7732r");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editIndex, setEditIndex] = useState(-1);
+    const [newText, setNewText] = useState('');
 
     const sectionRefs = useRef([]);
-    const topSection = useState([
+    const [topSection, setTopSection] = useState([
         {
             name: "name",
             title: "",
@@ -64,9 +67,11 @@ const EditPage = () => {
     const handleAddSection = () => {
         if (newSectionTitle.trim()) {
             const newSection = { title: newSectionTitle, sample: true, type: newSectionType };
-            setSections([...sections, newSection]);
+            const updatedSections = [...sections];
+            const insertIndex = updatedSections.findIndex(section => section.type === newSectionType);
+            updatedSections.splice(insertIndex + 1, 0, newSection);
+            setSections(updatedSections);
             setOpen(false);
-
             // Scroll to the new section
             setTimeout(() => {
                 sectionRefs.current[sections.length].scrollIntoView({ behavior: 'smooth' });
@@ -79,126 +84,128 @@ const EditPage = () => {
         setSections(newSections);
     };
 
-    const items = [
-        {
-            key: '1',
-            label: (
-                <button
-                    className="block w-full gap-2 text-left px-4 py-2 hover:bg-gray-100"
-                    onClick={() => openModal('Section01')}
-                >
-                    <PlusOutlined />
-                    <span className={"ml-2"}>Section 1</span>
-                </button>
-            ),
-        },
-        {
-            key: '2',
-            label: (
-                <button
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                    onClick={() => openModal('Section02')}
-                >
-                    <PlusOutlined />
-                    <span className={"ml-2"}>Section 2</span>
-                </button>
-            ),
-        },
-        {
-            key: '3',
-            label: (
-                <button
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                    onClick={() => openModal('Section03')}
-                >
-                    <PlusOutlined />
-                    <span className={"ml-2"}>Section 3</span>
-                </button>
-            ),
-        },
-        {
-            key: '4',
-            label: (
-                <button
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                    onClick={() => openModal('Section04')}
-                >
-                    <PlusOutlined />
-                    <span className={"ml-2"}>Section 4</span>
-                </button>
-            ),
-        },
-    ];
+    const addSectionButton = (type, buttonText) => (
+        <Button
+            className="flex items-center  justify-end mt-2 mb-4"
+            onClick={() => openModal(type)}
+        >
+            <PlusCircleOutlined />
+            <span className="ml-2 first-letter:uppercase ">Add {buttonText}</span>
+        </Button>
+    );
+
+    const handleEdit = (index) => {
+        setEditIndex(index);
+        setNewText(sections[index].value);
+        setIsModalOpen(true);
+    };
+
+    const handleUpdate = () => {
+        if (editIndex >= 0) {
+            const updatedSections = [...topSection];
+            updatedSections[editIndex] = {
+                ...updatedSections[editIndex],
+                value: newText,
+            };
+            setTopSection(updatedSections);
+            setNewText('');
+            setIsModalOpen(false);
+            setEditIndex(-1);
+        }
+    };
+
+    const handle_Delete = (index) => {
+        const updatedSections = [...sections];
+        updatedSections.splice(index, 1);
+        setTopSection(updatedSections);
+    };
+
+    const renderSectionsByType = (type) => {
+        return sections.filter(section => section.type === type).map((section, index) => {
+            const SectionComponent = sectionComponents[section.type];
+            return (
+                <div key={index} ref={(el) => (sectionRefs.current[index] = el)}>
+                    <SectionComponent
+                        SectionTitle={section.title}
+                        sample={section.sample}
+                        deleteSection={() => deleteSection(index)}
+                    />
+                </div>
+            );
+        });
+    };
 
     return (
-        <div className="flex sm:ml-[10%]  sm:overflow-y-hidden sm:flex-row flex-col sm:gap-10 m-7 ml-5 mr-7">
+        <div className="flex sm:ml-[10%] sm:overflow-y-hidden sm:flex-row flex-col sm:gap-10 m-7 ml-5 mr-7">
+            <Modal
+                title="Edit Text"
+                open={isModalOpen}
+                onOk={handleUpdate}
+                onCancel={() => {
+                    setIsModalOpen(false);
+                    setEditIndex(-1);
+                    setNewText('');
+                }}
+                okText="Update"
+            >
+                <Input
+                    type="text"
+                    value={newText}
+                    onChange={(e) => setNewText(e.target.value)}
+                    placeholder="Edited text"
+                />
+            </Modal>
             <div className="sm:w-[25%] flex flex-col gap-2">
                 <div className="flex sm:mx-3 flex-row justify-between">
                     <p className="text-xl font-roboto font-bold">Edit profile</p>
                     <div className={"flex flex-row gap-5"}>
                         <p className="text-blue-600 my-auto">Save</p>
-                        <Dropdown
-                            className={"my-auto"}
-                            menu={{ items }}
-                            placement="bottomRight"
-                        >
-                            <Button>
-                                Add section
-                                <PlusCircleOutlined />
-                            </Button>
-                        </Dropdown>
                     </div>
                 </div>
-                <div className=" w-full flex flex-col gap-2 items-center">
+                <div className="w-full flex flex-col gap-2 items-center">
                     <ImageUpload />
                 </div>
-                {
-                    topSection[0].map((topSection, index) => (
-                        <div key={index} className="flex justify-between sm:flex-row flex-col">
-                            <div className={"flex flex-col"}>
-                                {topSection.title !== null && <p className={"text-xl font-bold font-ubuntu"}>{topSection.title}</p>}
-                                <Paragraph
-                                    className={`font-ubuntu my-auto leading-2w ${topSection.name === "name" ? "font-bold text-xl" : ""} ${topSection.name === "username" ? "-mt-5" : ""}`}
-                                    editable={{ onChange: topSection.setValue }}
-                                >
-                                    {topSection.value}
-                                </Paragraph>
-                            </div>
+                {topSection.map((section, index) => (
+                    <div key={index} className="flex justify-between flex-row group">
+                        <div className="flex flex-col">
+                            <p className={`font-ubuntu my-auto leading-2w ${section.name === "name" ? "font-bold text-xl" : ""} ${section.name === "username" ? "" : ""}`}>
+                                {section.value}
+                            </p>
                         </div>
-                    ))
-                }
-                {sections.map((section, index) => {
-                    if (section.type === "Section01") {
-                        const SectionComponent = sectionComponents[section.type];
-                        return (
-                            <div key={index} ref={(el) => (sectionRefs.current[index] = el)}>
-                                <SectionComponent
-                                    SectionTitle={section.title}
-                                    sample={section.sample}
-                                    deleteSection={() => deleteSection(index)}
-                                />
-                            </div>
-                        );
-                    }
-                    return null;
-                })}
+                        <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button
+                                className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
+                                onClick={() => handleEdit(index)}
+                            >
+                                <EditOutlined />
+                            </button>
+                            <button
+                                className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
+                                onClick={() => handle_Delete(index)}
+                            >
+                                <BiTrash />
+                            </button>
+                        </div>
+                    </div>
+                ))}
+                {['Section01'].map(type => (
+                    <div key={type}>
+                        {renderSectionsByType(type)}
+                        <div className={"flex flex-row justify-start"}>
+                            {addSectionButton(type, sections.find(section => section.type === type).buttonText)}
+                        </div>
+                    </div>
+                ))}
             </div>
             <div className="sm:w-[50%] flex-wrap my-5 flex flex-col gap-3">
-                {sections.map((section, index) => {
-                    if (section.type !== "Section01") {
-                        const SectionComponent = sectionComponents[section.type];
-                        return (
-                            <div key={index} ref={(el) => (sectionRefs.current[index] = el)}>
-                                <SectionComponent
-                                    SectionTitle={section.title}
-                                    sample={section.sample}
-                                    deleteSection={() => deleteSection(index)}
-                                />
-                            </div>
-                        );
-                    }
-                    return null;
-                })}
+                {['Section02', 'Section03', 'Section04'].map(type => (
+                    <div key={type}>
+                        {renderSectionsByType(type)}
+                        <div className={"flex flex-row justify-start"}>
+                            {addSectionButton(type, sections.find(section => section.type === type).buttonText)}
+                        </div>
+                    </div>
+                ))}
             </div>
             <div>
                 <Modal

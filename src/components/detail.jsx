@@ -1,7 +1,7 @@
-import { EditOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Button, Input, Modal } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
+import { Input, Modal } from 'antd';
 import { useState } from 'react';
-import { BiPlusCircle } from 'react-icons/bi';
+import { BiPlusCircle, BiTrash } from 'react-icons/bi';
 
 // eslint-disable-next-line react/prop-types
 const MyComponent = ({ SectionTitle, sample, deleteSection }) => {
@@ -21,6 +21,8 @@ const MyComponent = ({ SectionTitle, sample, deleteSection }) => {
 
     const handleAddDetail = () => {
         setEditIndex(-1);
+        setNewTitle("");
+        setNewDescription("")
         setIsModalOpen(true);
     };
 
@@ -45,7 +47,6 @@ const MyComponent = ({ SectionTitle, sample, deleteSection }) => {
             setNewDescription('');
             setIsModalOpen(false);
             setEditIndex(-1);
-
         }
     };
 
@@ -84,23 +85,19 @@ const MyComponent = ({ SectionTitle, sample, deleteSection }) => {
                     >
                         <BiPlusCircle size={25} />
                     </button>
-                    <Button
-                        danger
-                        ghost
-                        size='small'
-                        className={"text-sm font-ubuntu"}
+                    <button
+                        className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
                         onClick={deleteSection}
                     >
-                        Delete
-                    </Button>
+                        <BiTrash />
+                    </button>
                 </div>
-
             </div>
             <div>
                 {details.map((detail, index) => (
-                    <div key={index} className="py-2 flex justify-between items-center">
+                    <div key={index} className="py-2 flex justify-between items-center group">
                         <span className={""}> <span className={"font-semibold text-blue-800 "}>{detail.title}: </span> {detail.description}</span>
-                        <div className="flex">
+                        <div className="flex opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <button
                                 className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
                                 onClick={() => handleEditDetail(index)}
@@ -108,10 +105,10 @@ const MyComponent = ({ SectionTitle, sample, deleteSection }) => {
                                 <EditOutlined />
                             </button>
                             <button
-                                className="px-2 py-1 text-slate-400 rounded hover:text-slate-600"
+                                className="px-2 py-1 text-slate-400 rounded hover:text-slate-600 mr-2"
                                 onClick={() => handleDeleteDetail(index)}
                             >
-                                <MinusCircleOutlined />
+                                <BiTrash />
                             </button>
                         </div>
                     </div>
